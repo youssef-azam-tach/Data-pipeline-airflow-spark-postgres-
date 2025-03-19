@@ -1,59 +1,38 @@
----
-
-# Job Scraping and Data Pipeline with Airflow, Spark, and PostgreSQL
-
-This project implements a scalable data pipeline that scrapes job listings from a job portal (Wuzzuf.net), processes the data using Apache Spark, and loads the transformed data into a PostgreSQL database. The entire workflow is orchestrated using **Apache Airflow**, ensuring automation, scalability, and reliability.
-
----
-
-## **Table of Contents**
-
-1. [Project Overview](#project-overview)
-2. [Key Components](#key-components)
-3. [Project Structure](#project-structure)
-4. [How to Run the Project](#how-to-run-the-project)
-5. [Screenshots](#screenshots)
-6. [Key Features](#key-features)
-7. [Conclusion](#conclusion)
-
----
+# **Data Pipeline with Airflow, Spark, and PostgreSQL**
 
 ## **Project Overview**
 
-This project automates the process of scraping, transforming, and loading job listing data. It leverages a combination of modern technologies to ensure performance, scalability, and maintainability.
+This project is a comprehensive data pipeline designed to automate the process of scraping job listings from Wuzzuf.net, processing the data using Apache Spark, and storing the transformed data into a PostgreSQL database. The workflow is orchestrated using Apache Airflow for automation, and Docker is used for containerization, ensuring consistency across environments.
 
-- **Apache Airflow** orchestrates the entire pipeline.
-- **Apache Spark** is used for data transformation and processing.
-- **PostgreSQL** stores the processed data for long-term storage and querying.
-- **Docker Compose** is used for managing the services like Airflow, Spark, and PostgreSQL.
-
+- **Full Pipeline Overview**:  
+  ![Full Pipeline Overview](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Full-pipline.png)
 ---
 
 ## **Key Components**
 
 1. **Web Scraping**:
-   - **Python Script**: Scrapes job listings from Wuzzuf.net.
-   - **Data Extracted**: Job title, company name, location, experience level, required skills.
-   - **Output**: Data saved to a CSV file (`job_listings.csv`).
+   - A Python script (`scraper.py`) scrapes job listings from Wuzzuf.net.
+   - Extracts job details such as job title, company name, location, experience level, and required skills.
+   - Saves the data as a CSV file (`job_listings.csv`).
 
 2. **Data Transformation with Apache Spark**:
-   - **Spark Job**: Processes the scraped data to clean, normalize, and transform the data.
-   - **Output**: Transformed data saved to a new CSV file (`job_listings_transformed.csv`).
+   - A Spark job (`spark_processor.py`) processes the scraped data.
+   - Cleans and transforms the data, normalizing column names, extracting average experience years, and saves the transformed data as a new CSV file (`job_listings_transformed.csv`).
 
 3. **Data Loading into PostgreSQL**:
-   - **Python Script**: Loads the transformed data into a PostgreSQL database.
-   - **Table Created**: `jobs` table, if it doesn't already exist.
-   - **Data Insertion**: Inserts the transformed data into the `jobs` table.
+   - A Python script (`db_loader.py`) loads the transformed data into a PostgreSQL database.
+   - Creates a `jobs` table if it doesn't exist and inserts the data into the table.
 
 4. **Orchestration with Apache Airflow**:
-   - **DAG Definition**: Orchestrates the workflow, consisting of three tasks:
+   - The Airflow DAG (`mydag.py`) orchestrates the entire workflow.
+   - The DAG consists of three tasks:
      - **Scraping Task**: Runs the web scraping script.
-     - **Spark Task**: Runs the Spark job for data transformation.
+     - **Spark Task**: Submits the Spark job for data transformation.
      - **Loading Task**: Loads the transformed data into PostgreSQL.
 
 5. **Docker Compose Configuration**:
-   - Manages services like PostgreSQL, Spark, and Airflow in isolated containers.
-   - Includes services for **Spark Master**, **Spark Worker**, and **pgAdmin**.
+   - Docker Compose is used to manage services such as PostgreSQL, Spark, and Airflow.
+   - The `docker-compose.override.yml` file defines additional services like Spark Master, Spark Worker, and pgAdmin for PostgreSQL management.
 
 ---
 
@@ -61,92 +40,109 @@ This project automates the process of scraping, transforming, and loading job li
 
 ```
 project/
+├── .astro/
+│ ├── config.yaml
+│ ├── dag_integrity_exceptions.txt
+│ ├── test_dag_integrity_default.py
 ├── dags/
-│ └── mydag.py
+│ ├── mydag.py
+│ ├── .airflowignore
 ├── include/
-│ ├── scripts/
-│ │ ├── scraper.py
-│ │ ├── spark_processor.py
-│ │ └── db_loader.py
 │ ├── data/
 │ │ └── job_listings_transformed.csv
-│ └── job_listings.csv
+│ ├── scripts/
+│ │ ├── db_loader.py
+│ │ ├── scraper.py
+│ │ └── spark_processor.py
+├── images/
+│ ├── ALL-Docker-Containers.jpg
+│ ├── Airflow-UI.jpg
+│ ├── Data-Pipline airflow.jpg
+│ ├── Full-pipline.png
+│ ├── Spark-UI.jpg
+│ └── postgrs-page-admin.jpg
 ├── Dockerfile
 ├── docker-compose.override.yml
+├── .dockerignore
+├── .gitignore
 ├── requirements.txt
-├── airflow_settings.yaml
-├── README.md
-└── .gitignore
+├── packages.txt
+└── tests/
+    └── dags/test_dag_example.py
 ```
+
+---
+
+## **Images**
+
+The following images are included in the project, showcasing various components of the pipeline:
+
+- **Docker Containers Overview**:  
+  ![Docker Containers Overview](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/ALL-Docker-Containers.jpg)
+
+- **Airflow UI**:  
+  ![Airflow UI](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Airflow-UI.jpg)
+
+- **Data Pipeline in Airflow**:  
+  ![Data Pipeline in Airflow](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Data-Pipline%20airflow.jpg)
+
+- **Spark UI**:  
+  ![Spark UI](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Spark-UI.jpg)
+
+- **PostgreSQL Admin UI**:  
+  ![PostgreSQL Admin UI](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/postgrs-page-admin.jpg)
 
 ---
 
 ## **How to Run the Project**
 
-### **Prerequisites**
-- Docker and Docker Compose installed.
-- Git installed.
+1. **Prerequisites**:
+   - Docker and Docker Compose installed.
+   - Git installed.
 
-### **Steps**
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd <project-folder>
-   ```
+2. **Steps**:
+   - Clone the repository:
+     ```bash
+     git clone <repository-url>
+     cd <project-folder>
+     ```
+   - Start the Airflow environment:
+     ```bash
+     astro dev start
+     ```
+   - Access the Airflow UI at `http://localhost:8080`.
+   - Trigger the DAG (`job_scraping_dag`) manually or wait for the scheduled run.
 
-2. **Start the Airflow Environment**:
-   ```bash
-   astro dev start
-   ```
-
-3. **Access the Airflow UI**:
-   Navigate to `http://localhost:8080` in your web browser.
-
-4. **Trigger the DAG**:
-   You can trigger the DAG (`job_scraping_dag`) manually or wait for the scheduled run.
-
-5. **Access Services**:
+3. **Access Services**:
    - **Airflow UI**: `http://localhost:8080`
    - **pgAdmin**: `http://localhost:5050`
    - **Spark Master UI**: `http://localhost:8081`
 
 ---
 
-## **Screenshots**
+## **Challenges and Solutions**
 
-### **Spark Master UI**
-![Spark Master UI](images/photo_2025-03-18_22-42-15.jpg)
+### 1. **Problem: Airflow DAG Failing to Trigger Jobs**
+   - **Issue**: The Airflow DAG failed to trigger jobs in a timely manner due to incorrect task dependencies and a misconfigured DAG schedule.
+   - **Cause**: The `depends_on_past` parameter was set to `True`, causing tasks to fail if previous runs didn’t complete successfully.
+   - **Solution**: Removed `depends_on_past` and ensured the DAG schedule was correctly configured for task execution.  
 
-### **Airflow DAG Execution**
-![Airflow DAG Execution](images/photo_2025-03-18_22-52-30.jpg)
+### 2. **Problem: Spark Job Timing Out**
+   - **Issue**: Spark jobs were timing out during the execution of the data transformation process.
+   - **Cause**: The default executor memory allocated in Docker for Spark was insufficient for the data being processed.
+   - **Solution**: Increased the memory allocation for the Spark containers in the `docker-compose.override.yml` file.
 
-### **Docker Containers Overview**
-![Docker Containers Overview](images/photo_2025-03-18_22-58-43.jpg)
-
-### **System Properties**
-![System Properties](images/Screenshot_2025-03-18_163742.png)
-
----
-
-## **Key Features**
-
-- **Automation**: The workflow is fully automated with Apache Airflow, reducing manual intervention.
-- **Scalability**: Apache Spark is used for processing large-scale data.
-- **Data Storage**: PostgreSQL serves as a reliable and structured data storage solution.
-- **Containerization**: Docker ensures that all services run in isolated environments, providing consistency across different setups.
+### 3. **Problem: PostgreSQL Connection Failure**
+   - **Issue**: The `db_loader.py` script failed to connect to PostgreSQL.
+   - **Cause**: The PostgreSQL service wasn't fully initialized before the connection attempt.
+   - **Solution**: Added a retry mechanism with a delay in the script to ensure that the connection is attempted only after PostgreSQL is ready.
 
 ---
 
 ## **Conclusion**
 
-This project demonstrates a robust and scalable data pipeline solution for scraping, processing, and storing job listings. By integrating **Apache Airflow**, **Apache Spark**, and **PostgreSQL**, it provides a professional approach to handling data engineering tasks, ensuring high performance, scalability, and maintainability.
+This project demonstrates how to build a scalable and automated data pipeline using Apache Airflow, Apache Spark, and PostgreSQL. By incorporating Docker, the solution is containerized and can be easily deployed across different environments. The automation of job scraping, transformation, and loading provides a streamlined and efficient process for handling large amounts of job data.
 
-The project is well-documented, containerized, and ready for deployment. You can easily set it up on your local machine or deploy it on cloud infrastructure.
+The challenges encountered during development were addressed using best practices for task dependencies, resource management, and robust error handling.
 
 ---
-
-## **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
---- 
