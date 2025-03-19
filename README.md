@@ -1,4 +1,4 @@
-# **Data Pipeline with Airflow, Spark, and PostgreSQL**
+# **Data Pipeline with Airflow, Spark,PostgreSQL and Power BI**
 
 ## **Project Overview**
 
@@ -78,7 +78,7 @@ project/
 The following images are included in the project, showcasing various components of the pipeline:
 
 - **Docker Containers Overview**:  
-  ![Docker Containers Overview](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/ALL-Docker-Containers.jpg)
+  ![Docker Containers Overview](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/main/images/ALL-Docker-Containers.jpg)
 
 - **Airflow UI**:  
   ![Airflow UI](https://github.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Airflow-UI.jpg)
