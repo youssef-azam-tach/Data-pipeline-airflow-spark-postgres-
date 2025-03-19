@@ -5,7 +5,7 @@
 This project is a comprehensive data pipeline designed to automate the process of scraping job listings from Wuzzuf.net, processing the data using Apache Spark, and storing the transformed data into a PostgreSQL database. The workflow is orchestrated using Apache Airflow for automation, and Docker is used for containerization, ensuring consistency across environments.
 
 - **Full Pipeline Overview**:  
-  ![Full Pipeline Overview](https//raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Full-pipline.png)
+  ![Full Pipeline Overview](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/main/images/Full-pipline.png)
 ---
 
 ## **Key Components**
@@ -87,10 +87,10 @@ The following images are included in the project, showcasing various components 
   ![Data Pipeline in Airflow](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/main/images/Data-Pipline%20airflow.jpg)
 
 - **Spark UI**:  
-  ![Spark UI](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/Spark-UI.jpg)
+  ![Spark UI](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/main/images/Spark-UI.jpg)
 
 - **PostgreSQL Admin UI**:  
-  ![PostgreSQL Admin UI](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/tree/main/images/postgrs-page-admin.jpg)
+  ![PostgreSQL Admin UI](https://raw.githubusercontent.com/youssef-azam-tach/Data-pipeline-airflow-spark-postgres-/main/images/postgrs-page-admin.jpg)
 
 ---
 
